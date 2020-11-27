@@ -13,6 +13,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \Illuminate\Support\Facades\DB::table('users')->insert([
+            'name' => "Usuario de teste",
+            'email' => 'user@teste.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('123456'),
+        ]);
     }
 }

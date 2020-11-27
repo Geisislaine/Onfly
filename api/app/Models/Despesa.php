@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Despesa extends Model
 {
     use HasFactory;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'usuario_id',
+        'descricao',
+        'data',
+        'anexo',
+        'valor'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
