@@ -1,11 +1,11 @@
 {
-  "name": "quasar-admin",
+  "name": "onfly-despesas",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar Admin",
+  "description": "Controle de despesas | Onfly",
+  "productName": "Controle de despesas | Onfly",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
-  "author": "pratikpatelpp802@gmail.com",
+  "author": "geisis19@gmail.com",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
