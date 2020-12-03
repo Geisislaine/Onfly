@@ -3,7 +3,7 @@
 
     <q-card class="bg-transparent no-shadow no-border">
       <q-card-section class="text-h6 q-pa-lg">
-        <div class="text-blue-grey-7 text-h3">Bem vindo {{ user }}!</div>
+        <div class="text-blue-grey-7 text-h3">Bem vindo {{ usuario.name }}!</div>
       </q-card-section>
     </q-card>
 
@@ -14,7 +14,7 @@
               <q-item class="q-pa-none">
                 <q-item-section class="q-pa-md q-ml-none" align="left">
                   <q-item-label class="text-h6">R$ 1500,00</q-item-label>
-                  <q-label>Saldo atual</q-label>
+                  <q-item-label>Saldo atual</q-item-label>
                 </q-item-section>
                 <q-item-section side class="q-mr-md" align="right">
                   <q-icon color="positive" name="fas fa-dollar-sign" size="30px"></q-icon>
@@ -43,7 +43,7 @@
                 </q-item-section>
               </q-item>
             </q-btn>
-            <q-btn rounded>
+            <q-btn rounded to="/Despesas">
               <q-item class="q-pa-none">
                 <q-item-section class=" q-pa-md q-ml-none" align="left">
                   <q-item-label class="text-h6">R$ 0,00</q-item-label>
@@ -80,17 +80,21 @@ function wrapCsvValue(val, formatFn) {
 }
 
 export default {
-  name: 'PageIndex',
-
   components: {
     Todo,
     IEcharts
   },
   data() {
     return {
+      usuario: {
+        name: null
+      },
     }
   },
   methods: {
+  },
+  mounted(){
+    this.usuario = this.$store.getters.user;
   }
 }
 </script>

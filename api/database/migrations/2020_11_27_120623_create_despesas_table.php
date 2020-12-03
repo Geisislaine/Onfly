@@ -20,6 +20,7 @@ class CreateDespesasTable extends Migration
             $table->string('descricao',255)->comment('descrição da despesa');
             $table->date('data')->comment('data de quando ocorreu a despesa');
             $table->string('anexo', 255)->comment('um anexo, com limite de 8mb')->nullable();
+            $table->string('nomeAnexo', 255)->comment('nome do anexo')->nullable();
             $table->decimal('valor', 9, 2);
 
             $table->timestamps();

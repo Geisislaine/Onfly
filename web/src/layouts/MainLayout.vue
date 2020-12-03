@@ -16,11 +16,27 @@
             v-if="$q.screen.gt.sm">
             <!--            <q-tooltip>Messages</q-tooltip>-->
           </q-btn>
-          <q-btn round flat>
-            <q-avatar size="60px" class="q-pa-lg-md">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar>
-          </q-btn>
+
+          <q-btn-dropdown size="1.2rem" round flat icon="fas fa-user-circle">
+            <q-list>
+              <q-item clickable v-close-popup @click="logout()">
+                <q-item-section avatar>
+                  <q-avatar icon="logout" text-color="indigo-7"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Sair</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section avatar>
+                  <q-avatar icon="settings" text-color="indigo-7"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Configurações</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </div>
       </q-toolbar>
     </q-header>
@@ -32,7 +48,7 @@
         content-class="bg-indigo-7 text-white" >
       <q-scroll-area class="fit">
       <q-list padding>
-        <q-item clickable v-ripple to="/" active-class="q-item-no-link-highlighting">
+        <q-item clickable v-ripple to="/Dashboard" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="dashboard"/>
           </q-item-section>
@@ -40,14 +56,7 @@
             <q-item-label>Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/Profile" active-class="q-item-no-link-highlighting">
-          <q-item-section avatar>
-            <q-icon name="person"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Perfil</q-item-label>
-          </q-item-section>
-        </q-item>
+
         <q-item clickable v-ripple to="/Despesas" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="fas fa-hand-holding-usd"/>
@@ -56,6 +65,16 @@
             <q-item-label>Despesas</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-item clickable v-ripple to="/Profile" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="person"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Perfil</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item clickable v-ripple active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="settings"/>
@@ -64,7 +83,7 @@
             <q-item-label>Configurações</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/Login" active-class="q-item-no-link-highlighting">
+        <q-item clickable v-ripple @click="logout()" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="logout"/>
           </q-item-section>
@@ -86,18 +105,31 @@
     import EssentialLink from 'components/EssentialLink'
 
     export default {
-        name: 'MainLayout',
+      name: 'MainLayout',
 
-        components: {
-            EssentialLink
-        },
+      components: {
+        EssentialLink
+      },
 
-        data() {
-            return {
-                drawer: false,
-                miniState: true
-            }
+      data() {
+        return {
+          drawer: false,
+          miniState: true,
+          usuario: {
+            name: null
+          },
         }
+      },
+
+      methods: {
+        async logout() {
+          this.$store.commit("SET_LOGOUT");
+          this.$router.replace('/')
+        }
+      },
+      mounted(){
+        this.usuario = this.$store.getters.user;
+      }
     }
 </script>
 <style scoped>

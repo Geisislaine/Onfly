@@ -18,12 +18,11 @@ class Despesa extends Model
         'descricao',
         'data',
         'anexo',
+        'nomeAnexo',
         'valor'
     ];
 
-    protected $casts = [
-        'data' => 'date:d/m/Y'
-    ];
+
 
     public function user()
     {

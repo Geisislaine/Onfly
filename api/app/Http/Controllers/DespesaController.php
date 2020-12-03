@@ -6,6 +6,7 @@ use App\Services\DespesaService;
 use Illuminate\Http\Request;
 use App\Helpers\Utils;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class DespesaController extends Controller
 {
@@ -49,6 +50,8 @@ class DespesaController extends Controller
 
     function salvar(Request $request)
     {
+        $this->validacao($request->all());
+
         try{
             $response = $this->despesaService->salvar($request->all());
         }catch (\Exception $e) {
@@ -63,6 +66,8 @@ class DespesaController extends Controller
 
     function atualizar($id, Request $request)
     {
+        $this->validacao($request->all());
+
         try{
             $response = $this->despesaService->atualizar($id, $request->all());
         }catch (\Exception $e) {
@@ -87,5 +92,25 @@ class DespesaController extends Controller
             return Utils::ResponseJson($e);
         }
         return Utils::ResponseJson($response);
+    }
+
+    private function validacao($request)
+    {
+        $campos =  [
+            'descricao' => 'Descrição da despesa',
+            'data' => 'A data da despesa',
+            'valor' => 'O valor da despesa',
+        ];
+
+        $validator = Validator::make($request, [
+            'descricao' => 'required|max:255',
+            'data' => 'required',
+            'valor' => 'required'
+        ], [], $campos);
+
+
+        if ($validator->fails()) {
+            abort(Utils::ResponseJsonValidation($validator->errors()));
+        }
     }
 }

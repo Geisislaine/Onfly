@@ -19,4 +19,11 @@ class Utils
         }
         return response()->json(['data' => $response, 'message' => $message, 'success' => $success], $statusCode);
     }
+
+    static function ResponseJsonValidation($response)
+    {
+        $return = array();
+
+        return response()->json(['success' => false, 'errors' => $response->all(), 'data' => null], 406);
+    }
 }

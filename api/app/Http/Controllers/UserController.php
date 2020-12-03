@@ -88,4 +88,19 @@ class UserController extends Controller
         }
         return Utils::ResponseJson($response);
     }
+
+    public function UniqueEmail($email)
+    {
+        try {
+            $response = $this->userService->uniqueEmail($email);
+        } catch (\Exception $e) {
+            Log::error($e);
+            if (!env('APP_DEBUG')) {
+                return Utils::ResponseJson(new \Exception("Erro ao validar email, contacte o administrador"));
+            }
+            return Utils::ResponseJson($e);
+        }
+
+        return $response;
+    }
 }

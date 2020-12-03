@@ -4,17 +4,22 @@ import VueRouter from 'vue-router'
 const routes = [
   {
     path: '/',
+    component: () => import('pages/Login.vue')
+  },
+  {
+    path: '/cadastrar',
+    component: () => import('pages/UsuarioCadastro.vue')
+  },
+  {
+    path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      {path: '', component: () => import('pages/Dashboard.vue')},
-      {path: '/Profile', component: () => import('pages/UserProfile.vue')},
+      {path: '/Dashboard', component: () => import('pages/Dashboard.vue')},
+      {path: '/Profile', component: () => import('pages/UsuarioEditar.vue')},
       {path: '/Despesas', component: () => import('pages/Despesas.vue')},
     ]
   },
-  {
-    path: '/Login',
-    component: () => import('pages/Login.vue')
-  },
+
 ]
 
 // Always leave this as last one

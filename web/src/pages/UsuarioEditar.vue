@@ -11,7 +11,7 @@
             <q-list class="row">
               <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <q-item-section side>
-                  <q-avatar size="140px" class="shadow-10">
+                  <q-avatar size="100px" class="shadow-10">
                     <q-icon color="indigo-7" name="fas fa-user"/>
                   </q-avatar>
                 </q-item-section>
@@ -41,14 +41,7 @@
 
             </q-list>
           </q-card-section>
-          <q-card-actions align="right" class="q-pa-lg">
-            <q-btn push class="text-capitalize text-white bg-indigo-7">Salvar Alteração</q-btn>
-          </q-card-actions>
-        </q-card>
-      </div>
 
-      <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-        <q-card class="card-bg">
           <q-card-section class=" text-blue-grey-7 text-h6 q-pa-lg">
             <div class="text-h6">Mudar Senha</div>
           </q-card-section>
@@ -70,10 +63,17 @@
             </q-item>
           </q-card-section>
           <q-card-actions align="right" class="q-pa-lg">
-            <q-btn push class="text-capitalize bg-indigo-7 text-white">Atualizar Senha</q-btn>
+            <q-btn padding="0.5rem 0.5rem" push class="text-capitalize bg-indigo-7 text-white">
+              <q-item-section>
+                <div class="text-white text-subtitle1 ">
+                  Salvar Alteração
+                </div>
+              </q-item-section>
+            </q-btn>
           </q-card-actions>
         </q-card>
       </div>
+
     </div>
   </q-page>
 </template>
@@ -84,15 +84,12 @@
         data() {
           return {
             user:{
-              nome: null,
-              email: null,
-              password: null,
-              novaPassword: null,
-              confNovaPasswor: null,
-              imgPerfil: null,
             }
           }
-        }
+        },
+        mounted(){
+        this.user = this.$store.getters.user;
+      }
     }
 </script>
 
