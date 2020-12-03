@@ -95,12 +95,10 @@
               this.$store.commit('SET_USER', response.data.user)
               this.$router.replace('/Dashboard')
             }).catch(error => {
-              if(error.response.data){
-                let errors = ''
-                error.response.data.errors.forEach((element) => {
-                  errors = errors + element + '<br>'
-                })
-                this.$q.notify({ type: 'negative',position: 'top-right', message: errors })
+              if(error.response.data.error){
+                if ( typeof error.response.data.error !== 'undefined' && error.response.data.error === 'Unauthorized') {
+                  this.$q.notify({ type: 'negative',position: 'top-right', message: 'Login e/ou senha inválidos' })
+                }
               }
             }).then(response => {
               this.$q.loading.hide()

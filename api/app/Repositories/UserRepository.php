@@ -22,7 +22,6 @@ class UserRepository extends BaseRepository
     public function getByEmail($email)
     {
         try {
-
             $response = $this->user->where('email', $email)->first();
             return $response;
         } catch (\Exception $e) {

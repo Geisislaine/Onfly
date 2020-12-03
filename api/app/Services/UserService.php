@@ -40,11 +40,11 @@ class UserService extends BaseService
         try {
             $user = $this->userRepository->getByEmail($email);
             if (isset($user)) {
-                return 1;
+                return response()->json(['duplicado' => 1]);
             }
         } catch (\Exception $e) {
             throw new \Exception($e);
         }
-        return 0;
+        return response()->json(['duplicado' => 0]);
     }
 }

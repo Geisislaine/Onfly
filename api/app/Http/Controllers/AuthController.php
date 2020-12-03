@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\Utils;
+use Illuminate\Support\Facades\Log;
 
 
 class AuthController extends Controller
@@ -26,17 +28,33 @@ class AuthController extends Controller
      */
     public function login(Request $request){
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
+        try{
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'password' => 'required|string|min:6',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+        }catch (\Exception $e) {
+            Log::error($e);
+            if (!env('APP_DEBUG')) {
+                return Utils::ResponseJson(new \Exception("Erro ao efetuar o login, contacte o administrador"));
+            }
+            return Utils::ResponseJson($e);
         }
 
-        if (! $token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        try{
+            if (! $token = auth()->attempt($validator->validated())) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+        }catch (\Exception $e) {
+            Log::error($e);
+            if (!env('APP_DEBUG')) {
+                return Utils::ResponseJson(new \Exception("Erro ao efetuar o login, contacte o administrador"));
+            }
+        return Utils::ResponseJson($e);
         }
 
         return $this->createNewToken($token);

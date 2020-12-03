@@ -114,7 +114,9 @@
       methods:{
         async emailDuplicado (value) {
 
-          const response = axios.get(Constants.apiUrl + '/email-unique/' + value)
+          const response = axios.get(Constants.apiUrl + '/email-unique/' + value).then(response=>{
+            this.emailDuplicadoVar = response.data.duplicado
+          })
           .catch(error => {
             if(error.response.data){
               let errors = ''
@@ -136,9 +138,10 @@
             this.$q.loading.show({ delay: 400 })
 
             if (this.user.email !== null && this.user.email !== '' && this.user.email !== 'undefined') {
-              this.emailDuplicadoVar = await this.emailDuplicado(this.user.email)
+              await this.emailDuplicado(this.user.email)
             }
-            if (this.emailDuplicadoVar == 1) {
+            console.log(this.emailDuplicadoVar)
+            if (this.emailDuplicadoVar) {
               this.$q.loading.hide()
               this.$q.notify({ type: 'negative',position: 'top-right', message: 'E-mail já cadastrado!' })
               return false
