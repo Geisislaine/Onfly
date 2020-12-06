@@ -1,0 +1,23 @@
+PASSO PARA RODAR O PROJETO 
+
+WEB
+
+1 - executar o comando npm install
+2 - criar arquivo chamado Constants.js na pasta src com os dados abaixo
+	- const apiUrl = 'http://127.0.0.1:8000/api'
+
+	export default {
+  		apiUrl: apiUrl
+	}
+
+
+
+API
+
+1 - Composer install
+2 - criar um banco de dados chamado onfly
+3 - criar arquivo .env com os dados da conecção do banco de dados
+	3.1 - rodar o comando php artisan jwt:secret
+4 - rodar comando php artisan migrate
+5 - rodar comando php artisa db:seed (p/ istalar um usuario de teste caso não queira realizar um cadastro para testar a aplicação)
+6 - rodar o comando php artisan storage:link (p/criar os atalhos da pastas onde são armzenado as imagens)
