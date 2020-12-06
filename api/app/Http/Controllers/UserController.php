@@ -19,7 +19,7 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    function listar()
+    public function listar()
     {
         try{
             $response = $this->userService->listar();
@@ -33,7 +33,7 @@ class UserController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function listarPorId($id)
+    public function listarPorId($id)
     {
         try{
             $response = $this->userService->listarPorId($id);
@@ -47,7 +47,7 @@ class UserController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function salvar(Request $request)
+    public function salvar(Request $request)
     {
         try{
             $response = $this->userService->salvar($request->all());
@@ -61,7 +61,7 @@ class UserController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function atualizar($id, Request $request)
+    public function atualizar($id, Request $request)
     {
         try{
             $response = $this->userService->atualizar($id, $request->all());
@@ -75,7 +75,7 @@ class UserController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function deletar($id)
+    public function deletar($id)
     {
         try{
             $response = $this->userService->deletar($id);

@@ -20,10 +20,10 @@ class DespesaController extends Controller
         $this->despesaService = $despesaService;
     }
 
-    function listar()
+    public function index($userId)
     {
         try{
-            $response = $this->despesaService->listar();
+            $response = $this->despesaService->listar($userId);
         }catch (\Exception $e) {
             Log::error($e);
             if (!env('APP_DEBUG')) {
@@ -34,7 +34,7 @@ class DespesaController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function listarPorId($id)
+    public function show($id)
     {
         try{
             $response = $this->despesaService->listarPorId($id);
@@ -48,7 +48,7 @@ class DespesaController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function salvar(Request $request)
+    public function store(Request $request)
     {
         $this->validacao($request->all());
 
@@ -64,7 +64,7 @@ class DespesaController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function atualizar($id, Request $request)
+    public function update($id, Request $request)
     {
         $this->validacao($request->all());
 
@@ -80,7 +80,7 @@ class DespesaController extends Controller
         return Utils::ResponseJson($response);
     }
 
-    function deletar($id)
+    public function destroy($id)
     {
         try{
             $response = $this->despesaService->deletar($id);
@@ -112,5 +112,18 @@ class DespesaController extends Controller
         if ($validator->fails()) {
             abort(Utils::ResponseJsonValidation($validator->errors()));
         }
+    }
+
+    public function salvarArquivo($id, Request $request){
+        try{
+            $response = $this->despesaService->salvarArquivo($id, $request);
+        }catch (\Exception $e) {
+            Log::error($e);
+            if (!env('APP_DEBUG')) {
+                return Utils::ResponseJson(new \Exception("Erro ao deletar a despesa, contate o administrado do sistema!"));
+            }
+            return Utils::ResponseJson($e);
+        }
+        return Utils::ResponseJson($response);
     }
 }

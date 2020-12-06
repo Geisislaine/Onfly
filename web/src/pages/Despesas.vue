@@ -85,7 +85,19 @@
 
                   <q-item class="col col-sm-12 col-xs-12">
                     <q-item-section>
-                      <q-input type="date" class="text-dark" v-model="despesa.data" hint="Data *" :rules="[ val => !!val || 'Data é um campo obrigatório']"/>
+                      <q-input v-model="despesa.data" mask="##/##/####" :rules="[ val => !!val || 'Data é um campo obrigatório']" hint="Data *" placeholder="dd/mm/aaaa">
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                              <q-date v-model="despesa.data" minimal mask="DD/MM/YYYY">
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="Close" color="indigo-7" flat />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
                     </q-item-section>
                   </q-item>
 
@@ -198,7 +210,7 @@
       moment,
       listarDespesas() {
         this.$q.loading.show({ delay: 400 })
-        axios.get(Constants.apiUrl + '/despesas', { headers: { Authorization: this.AuthStr } })
+        axios.get(Constants.apiUrl + '/despesas-por-user/' + this.$store.getters.user.id, { headers: { Authorization: this.AuthStr } })
         .then(response => {
           this.items = response.data.data
         }).catch(error => {
@@ -257,6 +269,7 @@
             formDataitems.append('data', this.despesa.data)
             formDataitems.append('anexo', this.despesa.anexo)
             formDataitems.append('valor', this.despesa.valor)
+            formDataitems.append('usuario_id', this.$store.getters.user.id)
 
             axios.post(Constants.apiUrl + '/despesas/', formDataitems, { headers: { Authorization: this.AuthStr } })
             .then(response => {
@@ -295,6 +308,9 @@
         .then(response => {
           this.adicionar = !this.adicionar
           this.despesa = response.data.data
+          console.log(this.despesa)
+          this.despesa.data = moment(this.despesa.data).format('DD/MM/YYYY')
+
           if(this.despesa != "null"){
             this.anexoSalvo = this.despesa.anexo
           }else{
@@ -313,22 +329,38 @@
         })
       },
 
+      async enviarAnexoUpdate(id, anexo){
+        const response = await axios.post(Constants.apiUrl + '/despesas/update-arquivo/'+ id , anexo, { headers: { Authorization: this.AuthStr } })
+          .catch(error => {
+            if(error.response.data){
+              let errors = ''
+              error.response.data.errors.forEach((element) => {
+                errors = errors + element + '<br>'
+              })
+              this.$q.notify({ type: 'negative',position: 'top-right', message: errors })
+            }
+          })
+        return response.data.data
+      },
+
       atualizarDespesa() {
-        this.$refs.form.validate().then(success => {
+        this.$refs.form.validate().then(async success => {
           if (success) {
             this.$q.loading.show({ delay: 400 })
             this.despesa.valor = this.despesa.valor.replace(/\R\$/g, '')
             this.despesa.valor = this.despesa.valor.replace(/\,/g, '.')
-            this.despesa.anexo = this.anexo
 
-            const atualizarformitems = new FormData()
+            if(this.anexo != null || this.anexo != 'null' || this.anexo != undefined || this.anexo != 'undefined'){
+              const formDataAnexo = new FormData()
 
-            atualizarformitems.append('descricao', this.despesa.descricao)
-            atualizarformitems.append('data', this.despesa.data)
-            atualizarformitems.append('anexo', this.despesa.anexo)
-            atualizarformitems.append('valor', this.despesa.valor)
+              formDataAnexo.append('anexo', this.anexo)
 
-            axios.post(Constants.apiUrl + '/despesas/'+ this.despesa.id , atualizarformitems, { headers: { Authorization: this.AuthStr } })
+              var urlAnexoSalvo = await this.enviarAnexoUpdate(this.despesa.id, formDataAnexo)
+            }
+
+            this.despesa.anexo = urlAnexoSalvo
+
+            axios.patch(Constants.apiUrl + '/despesas/'+ this.despesa.id , this.despesa, { headers: { Authorization: this.AuthStr } })
             .then(response => {
               this.adicionar = !this.adicionar
               this.$q.notify({ type: 'positive',position: 'top-right', message: 'Despesa atualizada com sucesso!'})
@@ -348,7 +380,7 @@
               this.adicionar = false
             })
           }else {
-            this.$q.notify({ type: 'negative',position: 'top-right', message: 'Preencha os campos brigatórios' })
+            this.$q.notify({ type: 'negative',position: 'top-right', message: 'Preencha os campos obrigatórios' })
           }
         })
       },
@@ -369,6 +401,7 @@
           this.$q.notify({ type: 'negative',position: 'top-right', message: 'Nenhum anexo adicionado a essa despesa!' })
         }
       }
+
     },
 
     mounted() {

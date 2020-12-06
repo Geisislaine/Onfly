@@ -19,7 +19,7 @@ class UserService extends BaseService
         $this->userRepository = $userRepository;
     }
 
-    function salvar($dados)
+    public function salvar($dados)
     {
         try {
             $fotoPerfil = $dados['fotoPerfil'];

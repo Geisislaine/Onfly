@@ -33,11 +33,16 @@ Route::group([ 'middleware' => 'api', 'prefix' => 'auth' ], function () {
 ################# DESPESAS ################
 Route::group(['middleware' => 'jwtApi'], function () {
 
-    Route::prefix('despesas')->namespace('\\App\\Http\\Controllers\\')->group(function () {
-        Route::get('/', [DespesaController::class, "listar"]);
-        Route::get('/{id}', [DespesaController::class, "listarPorId"]);
-        Route::delete('/{id}', [DespesaController::class, "deletar"]);
-        Route::post('/', [DespesaController::class, "salvar"]);
-        Route::post('/{id}', [DespesaController::class, "atualizar"]);
-    });
+    Route::resource('despesas', DespesaController::class);
+    Route::get('/despesas-por-user/{id}', [\App\Http\Controllers\DespesaController::class, "index"]);
+    Route::post('/despesas/update-arquivo/{id}', [\App\Http\Controllers\DespesaController::class, "salvarArquivo"]);
+
+
+    //Route::prefix('despesas')->namespace('\\App\\Http\\Controllers\\')->group(function () {
+    //    Route::get('/', [DespesaController::class, "listar"]);
+    //    Route::get('/{id}', [DespesaController::class, "listarPorId"]);
+    //    Route::delete('/{id}', [DespesaController::class, "deletar"]);
+    //    Route::post('/', [DespesaController::class, "salvar"]);
+    //    Route::post('/{id}', [DespesaController::class, "atualizar"]);
+    //});
 });
