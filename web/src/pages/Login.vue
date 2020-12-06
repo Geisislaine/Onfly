@@ -12,7 +12,7 @@
           </q-card-section>
           <q-card-section class="items-center">
             <q-form class="q-gutter-sm " ref="login">
-              <q-input filled v-model="email" placeholder="E-mail" lazy-rules :rules="[ val => !!val || 'Informe o e-mail']">
+              <q-input filled v-model="email" placeholder="E-mail" lazy-rules :rules="[ val => !!val || 'Informe o e-mail']" autocomplete>
                 <template v-slot:prepend>
                   <q-icon class="colorText" name="fas fa-user"/>
                 </template>

@@ -19,17 +19,17 @@ class BaseService
         $this->repository = $repository;
     }
 
-    function listar()
+    public  function listar($userId)
     {
         try {
-            $response = $this->repository->listar();
+            $response = $this->repository->listar($userId);
         }catch (\Exception $e){
             throw $e;
         }
         return $response;
     }
 
-    function listarPorId($id)
+    public function listarPorId($id)
     {
         try {
             $response = $this->repository->listarPorId($id);
@@ -39,7 +39,7 @@ class BaseService
         return $response;
     }
 
-    function salvar($dados)
+    public function salvar($dados)
     {
         try {
             $response = $this->repository->salvar($dados);
@@ -49,7 +49,7 @@ class BaseService
         return $response;
     }
 
-    function atualizar($id, $dados)
+    public function atualizar($id, $dados)
     {
         try {
             $response = $this->repository->atualizar($id, $dados);
@@ -59,7 +59,7 @@ class BaseService
         return $response;
     }
 
-    function deletar($id)
+    public function deletar($id)
     {
         try {
             $response = $this->repository->deletar($id);

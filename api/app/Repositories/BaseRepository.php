@@ -17,17 +17,17 @@ class BaseRepository
         $this->model = $model;
     }
 
-    function listar()
+    public function listar($userId)
     {
         try {
-            $response = $this->model->get();
+            $response = $this->model->where('usuario_id', $userId)->get();
         } catch (\Exception $e) {
             throw $e;
         }
         return $response;
     }
 
-    function listarPorId($id)
+    public function listarPorId($id)
     {
         try {
             $response = $this->model->where('id', $id)->first();
@@ -37,7 +37,7 @@ class BaseRepository
         return $response;
     }
 
-    function salvar($dados)
+    public function salvar($dados)
     {
         try {
             $response = $this->model->create($dados);
@@ -47,7 +47,7 @@ class BaseRepository
         return $response;
     }
 
-    function atualizar($id, $dados)
+    public function atualizar($id, $dados)
     {
         try {
             $response = $this->model->where('id', $id)->first();
@@ -59,7 +59,7 @@ class BaseRepository
         return $response;
     }
 
-    function deletar($id)
+    public function deletar($id)
     {
         try {
             $response = $this->model->where('id', $id)->first()->delete();
