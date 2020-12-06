@@ -64,7 +64,8 @@ class DespesaService extends BaseService
         return $response;
     }
 
-    public function salvarArquivo($id, $request){
+    public function salvarArquivo($id, $request)
+    {
         try{
             $despesa = $this->despesaRepository->listarPorId($id);
             if (is_file($despesa['anexo'])) {
@@ -80,5 +81,15 @@ class DespesaService extends BaseService
             throw $e;
         }
         return $anexo;
+    }
+
+    public  function listarPorIdUser($userId)
+    {
+        try {
+            $response = $this->despesaRepository->listarPorIdUser($userId);
+        }catch (\Exception $e){
+            throw $e;
+        }
+        return $response;
     }
 }

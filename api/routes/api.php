@@ -34,7 +34,7 @@ Route::group([ 'middleware' => 'api', 'prefix' => 'auth' ], function () {
 Route::group(['middleware' => 'jwtApi'], function () {
 
     Route::resource('despesas', DespesaController::class);
-    Route::get('/despesas-por-user/{id}', [\App\Http\Controllers\DespesaController::class, "index"]);
+    Route::get('/despesas-por-user/{id}', [\App\Http\Controllers\DespesaController::class, "listarPorIdUser"]);
     Route::post('/despesas/update-arquivo/{id}', [\App\Http\Controllers\DespesaController::class, "salvarArquivo"]);
 
 

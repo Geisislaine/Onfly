@@ -19,10 +19,10 @@ class BaseService
         $this->repository = $repository;
     }
 
-    public  function listar($userId)
+    public  function listar()
     {
         try {
-            $response = $this->repository->listar($userId);
+            $response = $this->repository->listar();
         }catch (\Exception $e){
             throw $e;
         }

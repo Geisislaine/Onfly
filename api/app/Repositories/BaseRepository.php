@@ -17,10 +17,10 @@ class BaseRepository
         $this->model = $model;
     }
 
-    public function listar($userId)
+    public function listar()
     {
         try {
-            $response = $this->model->where('usuario_id', $userId)->get();
+            $response = $this->model->get();
         } catch (\Exception $e) {
             throw $e;
         }

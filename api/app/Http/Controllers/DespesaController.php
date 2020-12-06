@@ -20,10 +20,10 @@ class DespesaController extends Controller
         $this->despesaService = $despesaService;
     }
 
-    public function index($userId)
+    public function index()
     {
         try{
-            $response = $this->despesaService->listar($userId);
+            $response = $this->despesaService->listar();
         }catch (\Exception $e) {
             Log::error($e);
             if (!env('APP_DEBUG')) {
@@ -33,6 +33,7 @@ class DespesaController extends Controller
         }
         return Utils::ResponseJson($response);
     }
+
 
     public function show($id)
     {
@@ -114,13 +115,28 @@ class DespesaController extends Controller
         }
     }
 
-    public function salvarArquivo($id, Request $request){
+    public function salvarArquivo($id, Request $request)
+    {
         try{
             $response = $this->despesaService->salvarArquivo($id, $request);
         }catch (\Exception $e) {
             Log::error($e);
             if (!env('APP_DEBUG')) {
                 return Utils::ResponseJson(new \Exception("Erro ao deletar a despesa, contate o administrado do sistema!"));
+            }
+            return Utils::ResponseJson($e);
+        }
+        return Utils::ResponseJson($response);
+    }
+
+    public function listarPorIdUser($userId)
+    {
+        try{
+            $response = $this->despesaService->listarPorIdUser($userId);
+        }catch (\Exception $e) {
+            Log::error($e);
+            if (!env('APP_DEBUG')) {
+                return Utils::ResponseJson(new \Exception("Erro ao listar as despesas, contate o administrado do sistema!"));
             }
             return Utils::ResponseJson($e);
         }
