@@ -128,18 +128,4 @@ class DespesaController extends Controller
         }
         return Utils::ResponseJson($response);
     }
-
-    public function listarPorIdUser($userId)
-    {
-        try{
-            $response = $this->despesaService->listarPorIdUser($userId);
-        }catch (\Exception $e) {
-            Log::error($e);
-            if (!env('APP_DEBUG')) {
-                return Utils::ResponseJson(new \Exception("Erro ao listar as despesas, contate o administrado do sistema!"));
-            }
-            return Utils::ResponseJson($e);
-        }
-        return Utils::ResponseJson($response);
-    }
 }

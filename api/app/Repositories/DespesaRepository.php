@@ -19,10 +19,11 @@ class DespesaRepository extends BaseRepository
         $this->despesa = $despesa;
     }
 
-    public function listarPorIdUser($userId)
+    public function listar()
     {
         try {
-            $response = $this->despesa->where('usuario_id', $userId)->get();
+            $user = auth('api')->user();
+            $response = $this->despesa->where('usuario_id', $user->id)->get();
         } catch (\Exception $e) {
             throw $e;
         }

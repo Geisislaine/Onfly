@@ -210,7 +210,7 @@
       moment,
       listarDespesas() {
         this.$q.loading.show({ delay: 400 })
-        axios.get(Constants.apiUrl + '/despesas-por-user/' + this.$store.getters.user.id, { headers: { Authorization: this.AuthStr } })
+        axios.get(Constants.apiUrl + '/despesas/' , { headers: { Authorization: this.AuthStr } })
         .then(response => {
           this.items = response.data.data
         }).catch(error => {

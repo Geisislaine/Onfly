@@ -82,14 +82,4 @@ class DespesaService extends BaseService
         }
         return $anexo;
     }
-
-    public  function listarPorIdUser($userId)
-    {
-        try {
-            $response = $this->despesaRepository->listarPorIdUser($userId);
-        }catch (\Exception $e){
-            throw $e;
-        }
-        return $response;
-    }
 }

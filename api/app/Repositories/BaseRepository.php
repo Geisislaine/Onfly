@@ -20,6 +20,7 @@ class BaseRepository
     public function listar()
     {
         try {
+            $user = auth('api')->user();
             $response = $this->model->get();
         } catch (\Exception $e) {
             throw $e;
