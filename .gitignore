@@ -5,10 +5,8 @@ api/yarn-error.log
 
 # Laravel 4 specific
 api/bootstrap/compiled.php
-api/app/storage/
 
 # Laravel 5 & Lumen specific
-api/public/storage
 api/public/hot
 
 # Laravel 5 & Lumen specific with changed public path
