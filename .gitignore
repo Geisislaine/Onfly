@@ -46,3 +46,7 @@ web/*.njsproj
 web/*.sln
 web/*.sw?
 web/src/constants.js
+
+api/public/anexos
+api/public/storage
+api/public/fotoPerfil
